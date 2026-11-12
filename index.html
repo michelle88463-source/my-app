@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#E6EEF8">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="갈증나">
+  <title>갈증나</title>
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
+  <link rel="apple-touch-icon" href="./apple-touch-icon.png">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <div class="app">
+    <header class="top">
+      <h1>갈증나<svg class="wave" viewBox="0 0 56 28" aria-hidden="true"><path d="M2 10 Q9 3 16 10 T30 10 T44 10 T54 8" /><path class="wave2" d="M2 20 Q9 13 16 20 T30 20 T44 20 T54 18" /></svg></h1>
+      <div class="top-actions">
+        <button class="icon-btn" id="openStats" aria-label="기록 보기">📊</button>
+        <button class="icon-btn" id="openSettings" aria-label="알림과 설정">⏰</button>
+      </div>
+    </header>
+
+    <main class="today">
+      <section class="card summary">
+        <p class="date" id="todayDate"></p>
+        <div class="gauge-ring" id="gaugeRing">
+          <div class="gauge">
+            <div><span class="num" id="todayCount">0</span><span class="unit">잔</span></div>
+            <div class="gauge-ml"><span id="todayMl">0</span>ml</div>
+          </div>
+        </div>
+        <p class="goal-text">💧 물 목표 <strong id="goalText">0 / 2,000ml</strong></p>
+        <ul class="types" id="typeTotals"></ul>
+      </section>
+
+      <section class="card log">
+        <h2>오늘 마신 기록</h2>
+        <ul id="todayLog"></ul>
+        <p class="empty" id="emptyLog">아직 기록이 없어요. 아래 버튼을 눌러 보세요!</p>
+      </section>
+    </main>
+
+    <footer class="bottom">
+      <div class="chips" id="typeChips" role="radiogroup" aria-label="음료 종류"></div>
+      <div class="chips small" id="mlChips" role="radiogroup" aria-label="한 잔 양"></div>
+      <button class="drink-btn" id="drinkBtn">+ 한잔</button>
+    </footer>
+  </div>
+
+  <!-- 기록 보기 -->
+  <div class="sheet" id="statsSheet" hidden>
+    <div class="sheet-inner">
+      <div class="sheet-head">
+        <h2>📊 기록 보기</h2>
+        <button class="close-btn" data-close>닫기</button>
+      </div>
+      <div class="tabs" role="tablist">
+        <button class="tab active" data-period="day">1일</button>
+        <button class="tab" data-period="week">1주</button>
+        <button class="tab" data-period="month">1달</button>
+      </div>
+      <p class="period-label" id="periodLabel"></p>
+      <table class="stat-table">
+        <thead><tr><th>종류</th><th>횟수</th><th>총량</th></tr></thead>
+        <tbody id="statBody"></tbody>
+      </table>
+      <h3 id="chartTitle">날짜별 총량</h3>
+      <div class="chart" id="chart"></div>
+      <div class="legend" id="legend"></div>
+    </div>
+  </div>
+
+  <!-- 알림과 설정 -->
+  <div class="sheet" id="settingsSheet" hidden>
+    <div class="sheet-inner">
+      <div class="sheet-head">
+        <h2>⏰ 알림과 설정</h2>
+        <button class="close-btn" data-close>닫기</button>
+      </div>
+
+      <h3>물 마실 시간</h3>
+      <div class="row">
+        <input type="time" id="newTime" value="10:00" aria-label="알림 시간">
+        <button class="pill" id="addTime">추가</button>
+      </div>
+      <ul class="times" id="timeList"></ul>
+      <p class="hint" id="notifyState"></p>
+      <button class="pill outline" id="askNotify">휴대폰 알림 허락하기</button>
+      <p class="hint">⚠️ 앱이 열려 있거나 막 닫았을 때만 알림이 확실히 와요. 꼭 필요하면 휴대폰 시계 앱 알람도 함께 써 주세요.</p>
+
+      <h3>물 하루 목표</h3>
+      <div class="row">
+        <input type="number" id="goalInput" min="500" max="5000" step="100" inputmode="numeric" aria-label="물 하루 목표(ml)">
+        <span class="unit-label">ml</span>
+        <button class="pill" id="saveGoal">저장</button>
+      </div>
+
+      <h3>오늘 기록 모두 지우기</h3>
+      <button class="pill danger" id="clearToday">오늘 기록 지우기</button>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="./app.js"></script>
+</body>
+</html>
